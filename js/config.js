@@ -1,15 +1,15 @@
 const CONFIG = {
 nama: "KikoStore", // Nama Store
-profil: "https://files.catbox.moe/etyco1.jpeg", // Url Profil
-banner: "https://files.catbox.moe/9gr5z6.jpeg", // Url Banner 
+profil: "https://files.catbox.moe/x00jjf.jpg", // Url Profil
+banner: "https://files.catbox.moe/ipyp65.jpg", // Url Banner 
 tentang: "KikoStore adalah toko online terpercaya yang telah melayani ribuan pelanggan sejak 2020. Kami menyediakan berbagai produk digital untuk kebutuhan sehari-hari dengan kualitas terbaik dan harga terjangkau.\n\nKomitmen kami adalah memberikan pengalaman berbelanja yang menyenangkan dengan pelayanan terbaik, produk original, dan garansi resmi untuk semua produk yang kami jual.",
 alamat: "Jl. Contoh No. 123, Jakarta, Indonesia",
 sosial_media: {
-  email: "pengen-loli@zass.cloud", // Email
-  youtube: "zassci_desu", // YouTube Username 
-  tiktok: "zass.id", // Tiktok Username 
-  whatsapp: "6288888888", // WhatsApp Number 
-  telegram: "zasstamvan" // Telegram Username
+  email: "cihe@zass.cloud", // Email
+  youtube: "Kiko", // YouTube Username 
+  tiktok: "xyzz.niko", // Tiktok Username 
+  whatsapp: "6282211029198", // WhatsApp Number 
+  telegram: "" // Telegram Username
 },
 payment: {
   dana: "0", // Payment Dana
@@ -88,12 +88,12 @@ const productsData = {
                     icon: "fas fa-pen-nib",
                     description: "Jasa pembuatan logo dengan berbagai gaya desain. Cocok untuk brand, usaha, atau komunitas.",
                     variants: [
-                        { name: "Logo Minimalis", price: 2000 },
-                        { name: "Logo Typography", price: 2500 },
-                        { name: "Logo Mascot", price: 3000 },
-                        { name: "Logo Vintage", price: 4000 },
-                        { name: "Logo Modern", price: 5000 },
-                        { name: "Request Custom", price: "Harga sesuai request" }
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: "0" }
                     ]
                 },
                 {
@@ -102,9 +102,9 @@ const productsData = {
                     icon: "fas fa-image",
                     description: "Jasa pembuatan banner untuk promosi usaha, media sosial, atau event.",
                     variants: [
-                        { name: "Banner Sosmed", price: 15000 },
-                        { name: "Banner Event", price: 25000 },
-                        { name: "Banner Promosi", price: 30000 }
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 }
                     ]
                 },
                 {
@@ -113,8 +113,8 @@ const productsData = {
                     icon: "fas fa-scroll",
                     description: "Jasa desain poster kreatif untuk kebutuhan bisnis, acara, atau publikasi.",
                     variants: [
-                        { name: "Poster A4", price: 20000 },
-                        { name: "Poster A3", price: 35000 }
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 }
                     ]
                 },
                 {
@@ -123,9 +123,9 @@ const productsData = {
                     icon: "fas fa-laptop-code",
                     description: "Jasa desain UI/UX untuk website atau aplikasi dengan tampilan modern dan user-friendly.",
                     variants: [
-                        { name: "Landing Page", price: 75000 },
-                        { name: "Full Website", price: 250000 },
-                        { name: "Mobile App UI", price: 300000 }
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 }
                     ]
                 },
                 {
@@ -134,8 +134,8 @@ const productsData = {
                     icon: "fas fa-id-card",
                     description: "Jasa desain kartu nama profesional untuk bisnis atau personal branding.",
                     variants: [
-                        { name: "Basic", price: 10000 },
-                        { name: "Premium", price: 20000 }
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 }
                     ]
                 }
             ],
@@ -146,9 +146,9 @@ const productsData = {
                     icon: "fas fa-book",
                     description: "Koleksi e-book digital dengan berbagai topik menarik, mulai dari bisnis, programming, hingga hobi.",
                     variants: [
-                        { name: "E-Book Bisnis", price: 15000 },
-                        { name: "E-Book Programming", price: 20000 },
-                        { name: "E-Book Random Pack", price: 10000 }
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 }
                     ]
                 },
                 {
@@ -157,9 +157,9 @@ const productsData = {
                     icon: "fas fa-cogs",
                     description: "Software dan tools digital untuk menunjang pekerjaan maupun kebutuhan kreatif.",
                     variants: [
-                        { name: "Software Editing", price: 30000 },
-                        { name: "Software Utility", price: 25000 },
-                        { name: "Tools Random Pack", price: 20000 }
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 }
                     ]
                 },
                 {
@@ -168,9 +168,9 @@ const productsData = {
                     icon: "fas fa-key",
                     description: "Produk lisensi resmi dan serial key untuk software pilihan.",
                     variants: [
-                        { name: "Windows Key", price: 50000 },
-                        { name: "Office Key", price: 60000 },
-                        { name: "Antivirus Key", price: 40000 }
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 }
                     ]
                 },
                 {
@@ -179,9 +179,9 @@ const productsData = {
                     icon: "fas fa-file-alt",
                     description: "Template digital untuk desain, presentasi, website, dan media sosial.",
                     variants: [
-                        { name: "Template PowerPoint", price: 10000 },
-                        { name: "Template Website", price: 30000 },
-                        { name: "Template Sosmed", price: 15000 }
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 }
                     ]
                 },
                 {
@@ -190,9 +190,9 @@ const productsData = {
                     icon: "fas fa-user-circle",
                     description: "Berbagai akun premium dengan harga terjangkau, cocok untuk hiburan dan produktivitas.",
                     variants: [
-                        { name: "Netflix Premium (1 Bulan)", price: 35000 },
-                        { name: "Spotify Premium (1 Bulan)", price: 25000 },
-                        { name: "Canva Pro (1 Bulan)", price: 20000 }
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 },
+                        { name: "ComingSoon", price: 0 }
                     ]
                 }
             ]
