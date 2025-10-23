@@ -25,7 +25,7 @@ telegram_api: {
 
 // Produk
 const productsData = {
-            "SAMP GTA R1": [
+            "PRODUK": [
               {
                 "id": 1,
                 "name": "GTA RP",
