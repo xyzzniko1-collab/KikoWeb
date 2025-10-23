@@ -3,9 +3,9 @@ nama: "KikoStore", // Nama Store
 profil: "https://files.catbox.moe/x00jjf.jpg", // Url Profil
 banner: "https://files.catbox.moe/ipyp65.jpg", // Url Banner 
 tentang: "KikoStore adalah toko online terpercaya yang telah melayani ribuan pelanggan sejak 2020. Kami menyediakan berbagai produk digital untuk kebutuhan sehari-hari dengan kualitas terbaik dan harga terjangkau.\n\nKomitmen kami adalah memberikan pengalaman berbelanja yang menyenangkan dengan pelayanan terbaik, produk original, dan garansi resmi untuk semua produk yang kami jual.",
-alamat: "Jl. Contoh No. 123, Jakarta, Indonesia",
+alamat: "Jl.tamansari, Jakarta, Indonesia",
 sosial_media: {
-  email: "cihe@zass.cloud", // Email
+  email: "cihe@Kiko.cloud", // Email
   youtube: "Kiko", // YouTube Username 
   tiktok: "xyzz.niko", // Tiktok Username 
   whatsapp: "6282211029198", // WhatsApp Number 
@@ -28,7 +28,7 @@ const productsData = {
             "SAMP GTA R1": [
               {
                 "id": 1,
-                "name": "Panel Pterodactyl",
+                "name": "GTA RP",
                 "icon": "fas fa-server",
                 "description": "GTA RP TERBAIK",
                 "variants": [
