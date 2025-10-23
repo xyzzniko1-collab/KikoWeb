@@ -6,7 +6,7 @@ tentang: "KikoStore adalah toko online terpercaya yang telah melayani beberapa p
 alamat: "Jl.tamansari, Jakarta, Indonesia",
 sosial_media: {
   email: "cihe@Kiko.cloud", // Email
-  youtube: "Kiko", // YouTube Username 
+  youtube: "@Nikogan", // YouTube Username 
   tiktok: "xyzz.niko", // Tiktok Username 
   whatsapp: "6282211029198", // WhatsApp Number 
   telegram: "" // Telegram Username
