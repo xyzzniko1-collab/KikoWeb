@@ -2,7 +2,7 @@ const CONFIG = {
 nama: "KikoStore", // Nama Store
 profil: "https://files.catbox.moe/x00jjf.jpg", // Url Profil
 banner: "https://files.catbox.moe/ipyp65.jpg", // Url Banner 
-tentang: "KikoStore adalah toko online terpercaya yang telah melayani ribuan pelanggan sejak 2020. Kami menyediakan berbagai produk digital untuk kebutuhan sehari-hari dengan kualitas terbaik dan harga terjangkau.\n\nKomitmen kami adalah memberikan pengalaman berbelanja yang menyenangkan dengan pelayanan terbaik, produk original, dan garansi resmi untuk semua produk yang kami jual.",
+tentang: "KikoStore adalah toko online terpercaya yang telah melayani beberapa pelanggan sejak 2024. Kami menyediakan berbagai produk untuk kebutuhan sehari-hari dengan kualitas terbaik dan harga terjangkau.\n\nKomitmen kami adalah memberikan pengalaman berbelanja yang menyenangkan dengan pelayanan terbaik, produk original, dan garansi resmi untuk semua produk yang kami jual.",
 alamat: "Jl.tamansari, Jakarta, Indonesia",
 sosial_media: {
   email: "cihe@Kiko.cloud", // Email
