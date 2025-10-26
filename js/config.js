@@ -25,7 +25,7 @@ telegram_api: {
 
 // Produk
 const productsData = {
-            "PRODUK": [
+            "PRODUK KIKO": [
               {
                 "id": 1,
                 "name": "GTA RP",
@@ -49,39 +49,36 @@ const productsData = {
               },
               {
                 "id": 3,
-                "name": "Basic Hosting",
+                "name": "BUILD BOT DISCORD",
                 "icon": "fas fa-hdd",
                 "description": "Kamu ingin mendapatkan hosting dengan performa lancar tetapi dengan harga yang murah? Kamu ada di tempat yang tepat!!",
                 "variants": [
-                  { "name": "1 vCPU AMD / 1GB RAM / 5GB SSD", "price": 5000 },
-                  { "name": "1 vCPU AMD / 2GB RAM / 10GB SSD", "price": 10000 },
-                  { "name": "1,5 vCPU AMD / 3GB RAM / 15GB SSD", "price": 15000 },
-                  { "name": "2 vCPU AMD / 4GB RAM / 20GB SSD", "price": 20000 }
+                  { "name": "BUILD BOT DISCORD", "price": TERGANTUNG SUSAH APA GA},
                 ]
               },
               {
                 "id": 4,
-                "name": "Dedicated Server",
+                "name": "JASA MAP GUNUNG",
                 "icon": "fas fa-database",
-                "description": "Server dedicated dengan performa tinggi, cocok untuk skala besar.",
+                "description": "jasa map gunung hard/low.",
                 "variants": [
-                  { "name": "8 vCPU / 32GB RAM / 500GB SSD", "price": 450000 },
-                  { "name": "16 vCPU / 64GB RAM / 1TB SSD", "price": 800000 }
+                  { "name": "cp5/10", "price": 100 },
+                  { "name": "cp10/15", "price": 200 }
                 ]
               },
               {
                 "id": 5,
-                "name": "Web Hosting",
+                "name": "COMINGSOON",
                 "icon": "fas fa-globe",
-                "description": "Hosting website dengan panel cPanel / DirectAdmin, cocok untuk pemula.",
+                "description": "COMINGSOON.",
                 "variants": [
-                  { "name": "Starter (1GB Storage)", "price": 15000 },
-                  { "name": "Basic (5GB Storage)", "price": 30000 },
-                  { "name": "Pro (10GB Storage)", "price": 50000 }
+                  { "name": "COMINGSOON", "price": COMINGSOON },
+                  { "name": "COMINGSOON", "price": COMINGSOON },
+                  { "name": "COMINGSOON", "price": COMINGSOON }
                 ]
               }
             ],
-            "Desain": [
+            "PRODUK WANZY": [
                 {
                     id: 6,
                     name: "Desain Logo",
