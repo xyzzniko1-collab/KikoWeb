@@ -81,58 +81,61 @@ const productsData = {
             "PRODUK WANZY": [
                 {
                     id: 6,
-                    name: "Desain Logo",
+                    name: "JASA SAMP",
                     icon: "fas fa-pen-nib",
-                    description: "Jasa pembuatan logo dengan berbagai gaya desain. Cocok untuk brand, usaha, atau komunitas.",
+                    description: "Jasa samp dengan berbagai fitur yang gg. Cocok untuk server, dll.",
                     variants: [
-                        { name: "ComingSoon", price: 0 },
-                        { name: "ComingSoon", price: 0 },
-                        { name: "ComingSoon", price: 0 },
-                        { name: "ComingSoon", price: 0 },
-                        { name: "ComingSoon", price: 0 },
-                        { name: "ComingSoon", price: "0" }
+                        { name: "Jasa Setup Server", price: 10.000-20.000 },
+                        { name: "Jasa Setup Bot Ucp", price: 5.000-15.000 },
+                        { name: "Jasa TextDraw", price: 15.000-50.000 },
+                        { name: "Jasa Fix Databse", price: 20.000-40.000 },
+                        { name: "Jasa Fix Gamemode", price: 15.000-70.000 },
                     ]
                 },
                 {
                     id: 7,
-                    name: "Desain Banner",
-                    icon: "fas fa-image",
-                    description: "Jasa pembuatan banner untuk promosi usaha, media sosial, atau event.",
+                    name: "GameMode",
+                    icon: "fas fa-scroll",
+                    description: "Sell Gamemode Ugrp, Lrp, Tcw.",
                     variants: [
-                        { name: "ComingSoon", price: 0 },
-                        { name: "ComingSoon", price: 0 },
-                        { name: "ComingSoon", price: 0 }
+                        { name: "Lrp/Ugrp", price: 150.000 },
+                        { name: "Tcw", price: 30.000 }
                     ]
                 },
                 {
                     id: 8,
-                    name: "Desain Poster",
-                    icon: "fas fa-scroll",
-                    description: "Jasa desain poster kreatif untuk kebutuhan bisnis, acara, atau publikasi.",
+                    name: "Hosting Budget",
+                    icon: "fas fa-laptop-code",
+                    description: "Hostingan Spesifikasi Murah Bukan Berarti Spec Murahan",
                     variants: [
-                        { name: "ComingSoon", price: 0 },
-                        { name: "ComingSoon", price: 0 }
+                        { name: "20 Slot Player", price: 5.000 },
+                        { name: "35 Slot Player", price: 15.000 },
+                        { name: "50 Slot Player", price: 25.000 },
+                        { name: "100 Slot Player", price: 40.000 }
                     ]
                 },
                 {
                     id: 9,
-                    name: "UI/UX Design",
-                    icon: "fas fa-laptop-code",
-                    description: "Jasa desain UI/UX untuk website atau aplikasi dengan tampilan modern dan user-friendly.",
+                    name: "Hosting Premium",
+                    icon: "fas fa-id-card",
+                    description: "Hostingan Spesifikasi Aman Lancar, No Ddos.",
                     variants: [
-                        { name: "ComingSoon", price: 0 },
-                        { name: "ComingSoon", price: 0 },
-                        { name: "ComingSoon", price: 0 }
+                        { name: "20 Slot Player", price: 15.000 },
+                        { name: "35 Slot Player", price: 25.000 },
+                        { name: "50 Slot Player", price: 40.000 },
+                        { name: "100 Slot Player", price: 70.000 }
                     ]
                 },
                 {
                     id: 10,
-                    name: "Desain Kartu Nama",
+                    name: "TextDraw",
                     icon: "fas fa-id-card",
-                    description: "Jasa desain kartu nama profesional untuk bisnis atau personal branding.",
+                    description: "TextDraw Terbaik, Di Buat Secara Realistis.",
                     variants: [
-                        { name: "ComingSoon", price: 0 },
-                        { name: "ComingSoon", price: 0 }
+                        { name: "TD NAMA SERVER", price: 10.000 },
+                        { name: "TD SPEEDOO, INVENTORY DLL", price: 15.000-100.000 },
+                        { name: "TD SIM ALL DOCUMENT", price: 30.000 },
+                        { name: "TD RADIAL ACTION/FACTION", price: 30.000 }
                     ]
                 }
             ],
