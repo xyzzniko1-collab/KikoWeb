@@ -44,21 +44,44 @@
         }
         /* Receipt Printing Optimization */
         @media print {
-            body * {
-                visibility: hidden;
+            body {
+                background: #fff !important;
+                color: #000 !important;
             }
-            #receipt-print, #receipt-print * {
-                visibility: visible;
+            body > *:not(#receipt-modal) {
+                display: none !important;
+            }
+            #receipt-modal {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+                background: #fff !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: start !important;
+                padding: 0 !important;
+            }
+            #receipt-modal > div {
+                border: none !important;
+                box-shadow: none !important;
+                background: #fff !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                height: auto !important;
+            }
+            #receipt-modal > div > div:first-child,
+            #receipt-modal > div > div:last-child {
+                display: none !important;
             }
             #receipt-print {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 80mm; /* Standard thermal roll width */
-                color: #000;
-                background: #fff;
+                width: 80mm !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+                color: #000 !important;
+                background: #fff !important;
                 font-family: monospace;
-                padding: 10px;
             }
         }
     </style>
@@ -91,6 +114,10 @@
             <button onclick="switchView('inventory')" id="btn-nav-inventory" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 border border-transparent">
                 <i class="fa-solid fa-boxes-stacked text-base"></i>
                 <span>Kelola Menu</span>
+            </button>
+            <button onclick="switchView('guide')" id="btn-nav-guide" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 border border-transparent">
+                <i class="fa-solid fa-circle-info text-base"></i>
+                <span>Cara Instal & Pakai</span>
             </button>
         </nav>
 
@@ -127,7 +154,12 @@
             </div>
 
             <!-- Live Stats & Clock -->
-            <div class="flex items-center gap-6">
+            <div class="flex items-center gap-4 sm:gap-6">
+                <!-- Cart Button for Mobile -->
+                <button onclick="toggleCart()" class="lg:hidden relative p-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl border border-slate-700 transition-all flex items-center justify-center">
+                    <i class="fa-solid fa-basket-shopping text-base"></i>
+                    <span id="cart-badge-header" class="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[9px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-slate-900 hidden">0</span>
+                </button>
                 <!-- Clock -->
                 <div class="hidden md:flex flex-col text-right">
                     <span id="live-time" class="text-sm font-bold text-slate-200 tracking-wide">12:45:00 PM</span>
@@ -144,7 +176,7 @@
         </header>
 
         <!-- MOBILE SIDEBAR DRAWER (Hidden by Default) -->
-        <div id="mobile-sidebar" class="fixed inset-0 bg-slate-950/80 z-50 backdrop-blur-sm hidden transition-all duration-300">
+        <div id="mobile-sidebar" class="fixed inset-0 bg-slate-950/80 z-50 backdrop-blur-sm hidden transition-all duration-300" onclick="if(event.target === this) toggleMobileSidebar()">
             <div class="w-64 bg-slate-900 h-full flex flex-col border-r border-slate-800">
                 <div class="h-20 flex items-center justify-between px-6 border-b border-slate-800">
                     <div class="flex items-center gap-3">
@@ -170,6 +202,10 @@
                         <i class="fa-solid fa-boxes-stacked"></i>
                         <span>Kelola Menu</span>
                     </button>
+                    <button onclick="switchView('guide'); toggleMobileSidebar()" class="nav-btn-mob w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 text-slate-400 hover:bg-slate-800">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Cara Instal & Pakai</span>
+                    </button>
                 </nav>
             </div>
         </div>
@@ -180,45 +216,8 @@
             <!-- VIEW 1: POS / MESIN KASIR -->
             <div id="view-pos" class="absolute inset-0 flex flex-col lg:flex-row divide-y lg:divide-y-0 lg:divide-x divide-slate-800 transition-opacity duration-300">
                 
-                <!-- Left Column: Catalog & Custom Item Form -->
+                <!-- Left Column: Catalog -->
                 <div class="flex-1 flex flex-col overflow-hidden min-h-0 bg-slate-950">
-                    
-                    <!-- Form Tambah Barang Manual (Sesuai Permintaan) -->
-                    <div class="p-6 border-b border-slate-800 bg-slate-900/40">
-                        <div class="flex items-center gap-2 mb-4">
-                            <span class="w-1.5 h-4 rounded-full bg-blue-500"></span>
-                            <h3 class="text-sm font-bold text-slate-100 uppercase tracking-wider">Input Manual Barang Baru</h3>
-                        </div>
-                        <form id="form-custom-item" onsubmit="handleCustomItemSubmit(event)" class="grid grid-cols-1 md:grid-cols-12 gap-4">
-                            <div class="md:col-span-5">
-                                <label class="block text-xs font-semibold text-slate-400 mb-1.5">Nama Barang / Menu</label>
-                                <div class="relative">
-                                    <i class="fa-solid fa-utensils absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
-                                    <input type="text" id="manual-name" required placeholder="Contoh: Ayam Krispi Jumbo" class="w-full bg-slate-950/80 border border-slate-800 focus:border-blue-500/80 focus:ring-1 focus:ring-blue-500 rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-600 outline-none transition-all duration-200">
-                                </div>
-                            </div>
-                            <div class="md:col-span-3">
-                                <label class="block text-xs font-semibold text-slate-400 mb-1.5">Harga Satuan (Rp)</label>
-                                <div class="relative">
-                                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs font-bold">Rp</span>
-                                    <input type="number" id="manual-price" required min="1" placeholder="0" class="w-full bg-slate-950/80 border border-slate-800 focus:border-blue-500/80 focus:ring-1 focus:ring-blue-500 rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-600 outline-none transition-all duration-200">
-                                </div>
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-xs font-semibold text-slate-400 mb-1.5">Jumlah</label>
-                                <div class="relative">
-                                    <i class="fa-solid fa-calculator absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
-                                    <input type="number" id="manual-qty" required min="1" value="1" class="w-full bg-slate-950/80 border border-slate-800 focus:border-blue-500/80 focus:ring-1 focus:ring-blue-500 rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-100 outline-none transition-all duration-200">
-                                </div>
-                            </div>
-                            <div class="md:col-span-2 flex items-end">
-                                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl transition-all duration-150 flex items-center justify-center gap-2 shadow-lg shadow-blue-500/10">
-                                    <i class="fa-solid fa-plus"></i>
-                                    <span>Tambah</span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
 
                     <!-- Catalog Predefined Items -->
                     <div class="flex-1 overflow-y-auto p-6">
@@ -237,11 +236,17 @@
                     </div>
                 </div>
 
+                <!-- Cart Backdrop for Mobile -->
+                <div id="cart-backdrop" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-30 hidden lg:hidden transition-opacity duration-300" onclick="toggleCart()"></div>
+
                 <!-- Right Column: Cart / Transaksi Berjalan -->
-                <div class="w-full lg:w-[420px] bg-slate-900 flex flex-col flex-shrink-0 overflow-hidden min-h-0">
+                <div id="cart-panel" class="fixed lg:relative inset-y-0 right-0 z-40 w-full max-w-[420px] lg:max-w-none lg:w-[420px] bg-slate-900 flex flex-col flex-shrink-0 overflow-hidden min-h-0 border-l border-slate-800 lg:border-l-0 transform translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
                     <!-- Cart Header -->
                     <div class="px-5 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/20">
                         <div class="flex items-center gap-2.5">
+                            <button onclick="toggleCart()" class="lg:hidden text-slate-400 hover:text-white mr-1">
+                                <i class="fa-solid fa-arrow-left text-base"></i>
+                            </button>
                             <div class="p-1.5 rounded-lg bg-blue-500/10 text-blue-400">
                                 <i class="fa-solid fa-receipt text-sm"></i>
                             </div>
@@ -259,7 +264,7 @@
                         <div class="h-full flex flex-col items-center justify-center text-center text-slate-500 py-12">
                             <i class="fa-solid fa-basket-shopping text-4xl mb-3 text-slate-700"></i>
                             <p class="text-sm font-medium">Keranjang masih kosong</p>
-                            <p class="text-[11px] text-slate-600 mt-1">Gunakan form input atau katalog cepat</p>
+                            <p class="text-[11px] text-slate-600 mt-1">Pilih menu pada katalog untuk menambahkan</p>
                         </div>
                     </div>
 
@@ -397,8 +402,129 @@
                 </div>
             </div>
 
+            <!-- VIEW 4: CARA INSTAL & PANDUAN -->
+            <div id="view-guide" class="absolute inset-0 p-6 flex flex-col gap-6 hidden overflow-y-auto">
+                <div class="max-w-3xl mx-auto w-full space-y-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-200">Panduan Instalasi & Penggunaan</h3>
+                        <p class="text-xs text-slate-400">Ikuti langkah mudah berikut untuk menjalankan aplikasi POS Ayamclup di perangkat Anda.</p>
+                    </div>
+
+                    <!-- Card Langkah Instalasi -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
+                        <div class="flex items-center gap-2.5 pb-4 border-b border-slate-800">
+                            <div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                                <i class="fa-solid fa-download text-sm"></i>
+                            </div>
+                            <h4 class="text-sm font-bold text-slate-200 uppercase tracking-wider">Cara "Instal" & Menjalankan Aplikasi</h4>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-slate-950/50 border border-slate-800/80 p-4 rounded-xl space-y-2">
+                                <div class="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold">1</div>
+                                <h5 class="text-xs font-bold text-slate-200">Simpan File HTML</h5>
+                                <p class="text-[11px] text-slate-400 leading-relaxed">Salin seluruh kode HTML ini, lalu simpan di komputer Anda dengan nama file <code class="bg-slate-800 px-1.5 py-0.5 rounded text-blue-400 font-mono">index.html</code> atau <code class="bg-slate-800 px-1.5 py-0.5 rounded text-blue-400 font-mono">pos.html</code>.</p>
+                            </div>
+
+                            <div class="bg-slate-950/50 border border-slate-800/80 p-4 rounded-xl space-y-2">
+                                <div class="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold">2</div>
+                                <h5 class="text-xs font-bold text-slate-200">Buka di Browser</h5>
+                                <p class="text-[11px] text-slate-400 leading-relaxed">Klik dua kali file tersebut. File akan langsung terbuka di browser favorit Anda (Google Chrome, Microsoft Edge, Safari, atau Firefox).</p>
+                            </div>
+
+                            <div class="bg-slate-950/50 border border-slate-800/80 p-4 rounded-xl space-y-2">
+                                <div class="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold">3</div>
+                                <h5 class="text-xs font-bold text-slate-200">Siap Digunakan!</h5>
+                                <p class="text-[11px] text-slate-400 leading-relaxed">Aplikasi ini 100% serverless (tanpa server). Semua data menu dan riwayat transaksi disimpan aman di memori browser Anda (LocalStorage).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Fitur & Cara Pakai -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                        <div class="flex items-center gap-2.5 pb-4 border-b border-slate-800">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                                <i class="fa-solid fa-circle-question text-sm"></i>
+                            </div>
+                            <h4 class="text-sm font-bold text-slate-200 uppercase tracking-wider">Panduan Penggunaan Fitur</h4>
+                        </div>
+
+                        <ul class="space-y-3 text-xs text-slate-300">
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-400 mt-0.5 shrink-0"></i>
+                                <div>
+                                    <strong class="text-slate-100">Mesin Kasir (POS):</strong> 
+                                    Klik menu pada katalog cepat atau gunakan form "Input Manual" untuk memasukkan item baru secara instan ke keranjang belanja.
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-400 mt-0.5 shrink-0"></i>
+                                <div>
+                                    <strong class="text-slate-100">Pembayaran & Cetak Struk:</strong> 
+                                    Masukkan jumlah uang tunai yang diterima, sistem otomatis menghitung kembalian. Klik "Proses Transaksi" untuk memunculkan struk belanja siap cetak.
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-400 mt-0.5 shrink-0"></i>
+                                <div>
+                                    <strong class="text-slate-100">Kelola Menu:</strong> 
+                                    Gunakan tab "Kelola Menu" untuk menambah menu baru (bisa pakai URL gambar) atau menghapus menu bawaan dari database lokal Anda.
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-check text-emerald-400 mt-0.5 shrink-0"></i>
+                                <div>
+                                    <strong class="text-slate-100">Riwayat Transaksi:</strong> 
+                                    Semua transaksi tercatat rapi. Anda bisa melakukan cetak ulang (re-print) struk kapan saja atau menghapus seluruh riwayat untuk memulai hari baru.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
+        
+        <!-- FLOATING CART BUTTON FOR MOBILE -->
+        <button onclick="toggleCart()" class="lg:hidden fixed bottom-6 right-6 z-40 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white p-4 rounded-full shadow-lg shadow-blue-500/30 flex items-center justify-center transition-all duration-200 active:scale-95">
+            <i class="fa-solid fa-basket-shopping text-xl"></i>
+            <span id="cart-badge-fab" class="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-slate-950 hidden">0</span>
+        </button>
     </main>
+
+    <!-- MODAL QUANTITY SELECTOR -->
+    <div id="qty-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-sm rounded-2xl shadow-2xl p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 id="qty-modal-title" class="text-sm font-bold text-slate-100 uppercase tracking-wider truncate max-w-[240px]">Pilih Jumlah</h3>
+                <button onclick="closeQtyModal()" class="text-slate-400 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center bg-slate-950/40 p-3 rounded-xl border border-slate-800">
+                    <span class="text-xs text-slate-400">Harga Satuan</span>
+                    <span id="qty-modal-price" class="text-sm font-bold text-blue-400">Rp 0</span>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1.5">Jumlah Beli</label>
+                    <div class="flex items-center gap-3">
+                        <button onclick="adjustModalQty(-1)" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-200 font-bold transition-all select-none">-</button>
+                        <input type="number" id="qty-modal-input" min="1" value="1" oninput="updateQtyModalTotal()" class="flex-1 bg-slate-950 border border-slate-800 focus:border-blue-500 rounded-xl py-2.5 text-center text-sm font-bold text-slate-100 outline-none">
+                        <button onclick="adjustModalQty(1)" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-200 font-bold transition-all select-none">+</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                    <span class="text-xs font-semibold text-slate-400">Total Harga</span>
+                    <span id="qty-modal-total" class="text-sm font-black text-emerald-400">Rp 0</span>
+                </div>
+            </div>
+            <div class="flex gap-3 pt-2">
+                <button onclick="closeQtyModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs py-2.5 rounded-xl transition-all">Batal</button>
+                <button onclick="confirmAddWithQty()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-2.5 rounded-xl transition-all">Tambahkan</button>
+            </div>
+        </div>
+    </div>
 
     <!-- MODAL RECEIPT / STRUK POPUP -->
     <div id="receipt-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
@@ -545,7 +671,15 @@
 
         // VIEW CONTROLLER
         function switchView(viewId) {
-            const views = ['pos', 'history', 'inventory'];
+            // Close cart drawer on mobile when switching views
+            const cartPanel = document.getElementById('cart-panel');
+            const backdrop = document.getElementById('cart-backdrop');
+            if (cartPanel && !cartPanel.classList.contains('translate-x-full')) {
+                cartPanel.classList.add('translate-x-full');
+                backdrop.classList.add('hidden');
+            }
+
+            const views = ['pos', 'history', 'inventory', 'guide'];
             views.forEach(v => {
                 const el = document.getElementById(`view-${v}`);
                 if (v === viewId) {
@@ -569,11 +703,21 @@
                 }
             });
 
+            // Update Mobile Sidebar Buttons State
+            document.querySelectorAll('.nav-btn-mob').forEach(btn => {
+                if (btn.getAttribute('onclick').includes(`switchView('${viewId}')`)) {
+                    btn.className = "nav-btn-mob w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 bg-blue-600 text-white";
+                } else {
+                    btn.className = "nav-btn-mob w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 text-slate-400 hover:bg-slate-800";
+                }
+            });
+
             // Change page header title
             const headerTitles = {
                 'pos': { title: 'Mesin Kasir (POS)', desc: 'Kelola pesanan pelanggan dengan cepat dan efisien' },
                 'history': { title: 'Riwayat Transaksi', desc: 'Daftar semua transaksi penjualan di sistem ayamclup' },
-                'inventory': { title: 'Kelola Menu / Produk', desc: 'Kelola item menu makanan, minuman, dan harga jual' }
+                'inventory': { title: 'Kelola Menu / Produk', desc: 'Kelola item menu makanan, minuman, dan harga jual' },
+                'guide': { title: 'Cara Instal & Panduan', desc: 'Langkah mudah memasang dan menggunakan aplikasi kasir' }
             };
             document.getElementById('view-title').innerText = headerTitles[viewId].title;
             document.querySelector('#view-title + p').innerText = headerTitles[viewId].desc;
@@ -601,7 +745,7 @@
                 const imgUrl = p.img ? p.img : fallbackImg;
 
                 grid.innerHTML += `
-                    <div onclick="addToCart(${p.id})" class="group cursor-pointer bg-slate-900 border border-slate-800 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/5 rounded-2xl overflow-hidden transition-all duration-200 flex flex-col">
+                    <div onclick="addToCart('${p.id}')" class="group cursor-pointer bg-slate-900 border border-slate-800 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/5 rounded-2xl overflow-hidden transition-all duration-200 flex flex-col">
                         <div class="h-28 overflow-hidden relative bg-slate-950">
                             <img src="${imgUrl}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-80 group-hover:opacity-100">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
@@ -615,62 +759,104 @@
             });
         }
 
-        // Add Product from Catalog
+        // Add Product from Catalog (Opens Quantity Modal)
+        let selectedProductForQty = null;
+
         function addToCart(productId) {
-            const product = menuCatalog.find(p => p.id === productId);
+            const product = menuCatalog.find(p => p.id == productId);
             if (!product) return;
 
-            const existing = cart.find(item => item.id === productId);
+            selectedProductForQty = product;
+            document.getElementById('qty-modal-title').innerText = product.name;
+            document.getElementById('qty-modal-price').innerText = formatIDR(product.price);
+            document.getElementById('qty-modal-input').value = 1;
+            updateQtyModalTotal();
+            document.getElementById('qty-modal').classList.remove('hidden');
+        }
+
+        function closeQtyModal() {
+            document.getElementById('qty-modal').classList.add('hidden');
+            selectedProductForQty = null;
+        }
+
+        function adjustModalQty(delta) {
+            const input = document.getElementById('qty-modal-input');
+            let val = parseInt(input.value) || 1;
+            val += delta;
+            if (val < 1) val = 1;
+            input.value = val;
+            updateQtyModalTotal();
+        }
+
+        function updateQtyModalTotal() {
+            if (!selectedProductForQty) return;
+            const input = document.getElementById('qty-modal-input');
+            let qty = parseInt(input.value);
+            if (isNaN(qty) || qty < 1) qty = 1;
+            const total = selectedProductForQty.price * qty;
+            document.getElementById('qty-modal-total').innerText = formatIDR(total);
+        }
+
+        function confirmAddWithQty() {
+            if (!selectedProductForQty) return;
+            const input = document.getElementById('qty-modal-input');
+            let qty = parseInt(input.value);
+            if (isNaN(qty) || qty < 1) qty = 1;
+            
+            const existing = cart.find(item => item.id == selectedProductForQty.id);
             if (existing) {
-                existing.qty++;
+                existing.qty += qty;
             } else {
                 cart.push({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    qty: 1
+                    id: selectedProductForQty.id,
+                    name: selectedProductForQty.name,
+                    price: selectedProductForQty.price,
+                    qty: qty
                 });
             }
             renderCart();
+            closeQtyModal();
         }
 
-        // Handle Form Input Manual Custom Item (Sesuai Permintaan)
-        function handleCustomItemSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('manual-name').value.trim();
-            const price = parseFloat(document.getElementById('manual-price').value);
-            const qty = parseInt(document.getElementById('manual-qty').value);
-
-            if (!name || isNaN(price) || isNaN(qty)) return;
-
-            // Generate unique virtual ID for custom item
-            const customId = Date.now();
-
-            cart.push({
-                id: customId,
-                name: name,
-                price: price,
-                qty: qty
-            });
-
-            // Reset Form Fields
-            document.getElementById('manual-name').value = '';
-            document.getElementById('manual-price').value = '';
-            document.getElementById('manual-qty').value = '1';
-
-            renderCart();
+        // Toggle Mobile Cart Drawer
+        function toggleCart() {
+            const cartPanel = document.getElementById('cart-panel');
+            const backdrop = document.getElementById('cart-backdrop');
+            
+            if (cartPanel.classList.contains('translate-x-full')) {
+                cartPanel.classList.remove('translate-x-full');
+                backdrop.classList.remove('hidden');
+            } else {
+                cartPanel.classList.add('translate-x-full');
+                backdrop.classList.add('hidden');
+            }
         }
 
         // Render Current Cart List Table
         function renderCart() {
             const container = document.getElementById('cart-list');
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            
+            // Update badges
+            const badgeHeader = document.getElementById('cart-badge-header');
+            const badgeFab = document.getElementById('cart-badge-fab');
+            
+            if (totalItems > 0) {
+                badgeHeader.innerText = totalItems;
+                badgeHeader.classList.remove('hidden');
+                badgeFab.innerText = totalItems;
+                badgeFab.classList.remove('hidden');
+            } else {
+                badgeHeader.classList.add('hidden');
+                badgeFab.classList.add('hidden');
+            }
             
             if (cart.length === 0) {
                 container.innerHTML = `
                     <div class="h-full flex flex-col items-center justify-center text-center text-slate-500 py-12">
                         <i class="fa-solid fa-basket-shopping text-3xl mb-3 text-slate-700"></i>
                         <p class="text-xs font-semibold">Keranjang Masih Kosong</p>
-                        <p class="text-[10px] text-slate-600 mt-0.5">Gunakan form di atas atau katalog cepat</p>
+                        <p class="text-[10px] text-slate-600 mt-0.5">Pilih menu pada katalog untuk menambahkan</p>
                     </div>
                 `;
                 updateTotals(0);
@@ -693,14 +879,14 @@
                         <div class="flex items-center justify-between">
                             <span class="text-[10px] text-slate-500 font-medium">${formatIDR(item.price)} / pcs</span>
                             <div class="flex items-center gap-1.5">
-                                <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition-all">
+                                <button onclick="changeQty('${item.id}', -1)" class="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition-all">
                                     <i class="fa-solid fa-minus text-[10px]"></i>
                                 </button>
                                 <span class="text-xs font-bold w-6 text-center text-slate-200">${item.qty}</span>
-                                <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition-all">
+                                <button onclick="changeQty('${item.id}', 1)" class="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-400 hover:text-white transition-all">
                                     <i class="fa-solid fa-plus text-[10px]"></i>
                                 </button>
-                                <button onclick="removeFromCart(${item.id})" class="ml-2 text-rose-500 hover:text-rose-400 p-1">
+                                <button onclick="removeFromCart('${item.id}')" class="ml-2 text-rose-500 hover:text-rose-400 p-1">
                                     <i class="fa-solid fa-trash-can text-xs"></i>
                                 </button>
                             </div>
@@ -714,7 +900,7 @@
 
         // Change Quantity in Cart
         function changeQty(id, delta) {
-            const item = cart.find(i => i.id === id);
+            const item = cart.find(i => i.id == id);
             if (item) {
                 item.qty += delta;
                 if (item.qty <= 0) {
@@ -727,7 +913,7 @@
 
         // Remove Single Item
         function removeFromCart(id) {
-            cart = cart.filter(item => item.id !== id);
+            cart = cart.filter(item => item.id != id);
             renderCart();
         }
 
@@ -838,6 +1024,14 @@
             // Show Receipt Modal Popup
             document.getElementById('receipt-modal').classList.remove('hidden');
 
+            // Close cart drawer on mobile
+            const cartPanel = document.getElementById('cart-panel');
+            const backdrop = document.getElementById('cart-backdrop');
+            if (cartPanel) {
+                cartPanel.classList.add('translate-x-full');
+                backdrop.classList.add('hidden');
+            }
+
             // Reset States
             cart = [];
             document.getElementById('cash-payment').value = '';
@@ -912,7 +1106,7 @@
 
         // Reprint Struk from History
         function reprintFromHistory(trxId) {
-            const trx = transactionHistory.find(t => t.id === trxId);
+            const trx = transactionHistory.find(t => t.id == trxId);
             if (!trx) return;
 
             document.getElementById('rec-id').innerText = trx.id;
@@ -965,7 +1159,7 @@
                         </td>
                         <td class="p-4 text-xs font-extrabold text-blue-400">${formatIDR(p.price)}</td>
                         <td class="p-4 text-xs text-right">
-                            <button onclick="deleteProduct(${p.id})" class="bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 text-rose-400 p-2 rounded-lg transition-all" title="Hapus Menu">
+                            <button onclick="deleteProduct('${p.id}')" class="bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 text-rose-400 p-2 rounded-lg transition-all" title="Hapus Menu">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </td>
@@ -1007,7 +1201,7 @@
         // Delete Product from Catalog
         function deleteProduct(productId) {
             if (confirm("Hapus menu ini dari database?")) {
-                menuCatalog = menuCatalog.filter(p => p.id !== productId);
+                menuCatalog = menuCatalog.filter(p => p.id != productId);
                 localStorage.setItem('ayamclup_products', JSON.stringify(menuCatalog));
                 renderCatalog();
                 renderInventoryView();
